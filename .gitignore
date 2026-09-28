@@ -1,0 +1,5 @@
+.venv/
+.idea/
+.env
+models/clustering/
+models/classification/
