@@ -30,3 +30,5 @@ plt.title("Patient Clusters using PCA")
 
 plt.savefig(f"{path}/src/clustering/Patient_clusters_using_pca.png")
 plt.close()
+
+df.to_csv(f"{path}/data/processed/interpreted_data.csv",index=False)
