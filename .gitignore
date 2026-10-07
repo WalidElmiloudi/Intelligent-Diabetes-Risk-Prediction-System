@@ -3,3 +3,4 @@
 .env
 models/clustering/
 models/classification/
+__pycache__/
