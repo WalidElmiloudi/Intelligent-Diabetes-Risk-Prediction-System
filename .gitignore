@@ -4,3 +4,6 @@
 models/clustering/
 models/classification/
 __pycache__/
+mlflow.db
+mlartifacts/
+mlruns/

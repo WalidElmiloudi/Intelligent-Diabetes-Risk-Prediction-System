@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 from sklearn.decomposition import PCA
 from src.clustering.kmeans import train_kmeans
 from pathlib import Path
+import numpy as np
 
 path = Path(__file__).resolve().parents[2]
 
@@ -30,5 +31,8 @@ plt.title("Patient Clusters using PCA")
 
 plt.savefig(f"{path}/src/clustering/Patient_clusters_using_pca.png")
 plt.close()
+
+df["Diabete_risk"] = np.where(df["cluster"] == 0 , "High" , np.where(df["cluster"] == 1 , "Moderate" , "Low"))
+df = df.drop(columns=["cluster"])
 
 df.to_csv(f"{path}/data/processed/interpreted_data.csv",index=False)

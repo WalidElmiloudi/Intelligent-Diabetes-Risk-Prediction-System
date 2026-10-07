@@ -5,6 +5,9 @@ from sklearn.model_selection import RandomizedSearchCV
 from src.classification.evaluate import evaluate
 import joblib
 from pathlib import Path
+from src.mlflow.tracking import start_experiment , log_parameters ,  log_model , log_metrics
+import mlflow
+import mlflow.sklearn
 
 path = Path(__file__).resolve().parents[2]
 
@@ -20,6 +23,8 @@ X_train,X_test,y_train,y_test = train_test_split(
     random_state=42,
     stratify=y
 )
+
+start_experiment("Diabetes Risk Classification - Tuning")
 
 best_model = evaluate()
 
@@ -59,5 +64,19 @@ print("Best CV score:", search.best_score_ * 100)
 best_model = search.best_estimator_
 
 best_model.fit(X_train,y_train)
+
+with mlflow.start_run(run_name="Best Model"):
+
+    log_parameters(search.best_params_)
+    log_metrics({
+        "accuracy": search.best_score_
+    })
+
+    mlflow.sklearn.log_model(
+        sk_model=best_model,
+        name="diabetes_risk_model",
+        registered_model_name="DiabetesRiskClassifier",
+        serialization_format="cloudpickle"
+    )
 
 joblib.dump(best_model,f"{path}/models/classification/final_model.joblib")

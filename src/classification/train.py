@@ -12,6 +12,8 @@ from sklearn.impute import SimpleImputer
 from sklearn.preprocessing import StandardScaler
 from sklearn.compose import ColumnTransformer
 from pathlib import Path
+from src.mlflow.tracking import start_experiment , log_parameters ,  log_model
+import mlflow
 
 path = Path(__file__).resolve().parents[2]
 
@@ -75,8 +77,22 @@ models = {
 
 def train():
     trained_models = {}
+
+    start_experiment("Diabetes Risk Classification")
+
     for name,model in models.items():
-        model.fit(X_train,y_train)
+        with mlflow.start_run(run_name=name):
+            model.fit(X_train,y_train)
+
+            log_parameters({
+                "model":name
+            })
+
+            log_model(
+                name,
+                model
+            )
+
         trained_models[name] = model
 
     return trained_models
