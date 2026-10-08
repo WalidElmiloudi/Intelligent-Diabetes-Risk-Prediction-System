@@ -1,2 +1,2 @@
-def predict(model,data):
+def predict_risk(model,data):
     return model.predict(data)
