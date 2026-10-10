@@ -1,4 +1,14 @@
-FROM ubuntu:latest
-LABEL authors="walid"
+FROM apache/airflow:2.8.1-python3.10
 
-ENTRYPOINT ["top", "-b"]
+USER root
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends curl \
+    && rm -rf /var/lib/apt/lists/*
+
+USER airflow
+
+COPY ../../requirements-airflow.txt /requirements-airflow.txt
+
+RUN pip install --no-cache-dir \
+    -r /requirements-airflow.txt

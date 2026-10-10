@@ -15,7 +15,7 @@ from pathlib import Path
 from src.mlflow.tracking import start_experiment , log_parameters ,  log_model
 import mlflow
 
-path = Path(__file__).resolve().parents[2]
+path = "/opt/airflow"
 
 df = pd.read_csv(f"{path}/data/processed/interpreted_data.csv")
 

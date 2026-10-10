@@ -1,8 +1,10 @@
 pandas
+psycopg2-binary==2.9.9
+SQLAlchemy>=1.4,<2.0
 scikit-learn
 matplotlib
 seaborn
 mlflow
 fastapi
 streamlit
-apache-airflow
+email-validator>=2.0
